@@ -1,0 +1,49 @@
+name: Sync Excel File to Repo B
+
+on:
+  push:
+    branches:
+      - main   # Or your default branch
+permissions:
+  contents: read
+
+jobs:
+  sync_excel:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo A
+      uses: actions/checkout@v3
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Copy Excel file
+      # Assuming your Excel file is at root or adjust path
+      run: |
+        ls -la
+        # Optional: Do your script to generate or update Excel here
+        # For example: node your_script.js
+      # You can add your node or python script execution here if needed
+
+    - name: Clone Repo B
+      env:
+        REPO_B_PAT: ${{ secrets.REPO_B_PAT }}
+      run: |
+        git clone https://x-access-token:${REPO_B_PAT}@github.com/yourusername/repo-b.git repo-b
+        ls -la repo-b
+
+    - name: Copy Excel file to Repo B
+      run: |
+        cp ./Broker_Analysis\ -\ Copy.xlsx repo-b/
+        cd repo-b
+        git add Broker_Analysis\ -\ Copy.xlsx
+
+    - name: Commit & push to Repo B
+      env:
+        REPO_B_PAT: ${{ secrets.REPO_B_PAT }}
+      run: |
+        cd repo-b
+        git commit -m "Update Excel file from Repo A on $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git push origin main
