@@ -25,7 +25,7 @@ const xlsx = require('xlsx');
     try {
         await page.goto("https://nepsealpha.com/nepse-chart", { waitUntil: 'networkidle2' });
         console.log("📄 Page loaded");
-        await page.screenshot({ path: 'step0.png' });
+        // await page.screenshot({ path: 'step0.png' });
 
         // Step 1: Click the first button
         try {
@@ -40,7 +40,7 @@ const xlsx = require('xlsx');
 
 
             
-            await page.screenshot({ path: 'step1.png' });
+            // await page.screenshot({ path: 'step1.png' });
             await new Promise(resolve => setTimeout(resolve, 2000));
 
         } catch (err) {
@@ -63,7 +63,7 @@ const xlsx = require('xlsx');
                 await button.click();
             
                 console.log("✅ 'Prime Picks' button clicked");
-                await page.screenshot({ path: 'step2.png' });
+                // await page.screenshot({ path: 'step2.png' });
                 await new Promise(resolve => setTimeout(resolve, 2000));
             } else {
                 console.log("❌ 'Prime Picks' span not found");
@@ -84,7 +84,7 @@ const xlsx = require('xlsx');
                     await span.evaluate(el => el.scrollIntoView());
                     await span.click();
                     console.log("✅ 'Broker Picks' span clicked");
-                    await page.screenshot({ path: 'step3.png' });
+                    // await page.screenshot({ path: 'step3.png' });
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     break;
                 }
@@ -124,6 +124,11 @@ const xlsx = require('xlsx');
                     const cells = await row.$$eval('td', tds =>
                         tds.map(td => td.innerText.trim()).filter(text => text !== "")
                     );
+                    // Skip row if it contains exactly "No data available" or if it's empty
+                    if (cells.length === 1 && cells[0].toLowerCase() === "no data available") {
+                        console.log("⏭️ Skipping empty/no data row");
+                        continue;
+                    }
                     console.log(cells.join(" | "));
                     tableData.push(cells);
                 }
@@ -137,7 +142,7 @@ const xlsx = require('xlsx');
                 xlsx.writeFile(workbook, 'nepse_data.xlsx');
                 console.log("✅ Data saved to nepse_data.xlsx");
             
-                await page.screenshot({ path: 'step4.png' });
+                // await page.screenshot({ path: 'step4.png' });
             }
         } catch (err) {
             console.error("❌ Failed to extract headers or data rows or save XLSX", err);
