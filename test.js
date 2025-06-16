@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const xlsx = require('xlsx');
 
 (async () => {
     const browser = await puppeteer.launch({
@@ -93,24 +94,55 @@ const puppeteer = require('puppeteer');
         }
 
         // Step 4: Extract table data
+        // Step 4: Extract table headers + data rows and save to XLSX
         try {
+            console.log("⏳ Waiting for table headers...");
+            await page.waitForSelector('table thead tr', { timeout: 10000 });
+        
+            // Extract headers (column names)
+            const headers = await page.$$eval('table thead tr th', ths =>
+                ths.map(th => th.innerText.trim())
+            );
+        
+            console.log("Headers:", headers.join(" | "));
+        
             console.log("⏳ Waiting for data rows...");
             await page.waitForSelector('table tbody tr', { timeout: 20000 });
             const rows = await page.$$('table tbody tr');
-
+        
             if (!rows.length) {
                 console.log("❌ No data rows found");
             } else {
                 console.log(`\n✅ Found ${rows.length} data rows:\n`);
+            
+                const tableData = [];
+            
+                // Add headers as the first row
+                tableData.push(headers);
+            
                 for (let row of rows) {
-                    const cells = await row.$$eval('td', tds => tds.map(td => td.innerText.trim()).filter(text => text !== ""));
+                    const cells = await row.$$eval('td', tds =>
+                        tds.map(td => td.innerText.trim()).filter(text => text !== "")
+                    );
                     console.log(cells.join(" | "));
+                    tableData.push(cells);
                 }
+            
+                // Create workbook and worksheet
+                const workbook = xlsx.utils.book_new();
+                const worksheet = xlsx.utils.aoa_to_sheet(tableData);
+                xlsx.utils.book_append_sheet(workbook, worksheet, 'Data');
+            
+                // Write to file
+                xlsx.writeFile(workbook, 'nepse_data.xlsx');
+                console.log("✅ Data saved to nepse_data.xlsx");
+            
                 await page.screenshot({ path: 'step4.png' });
             }
         } catch (err) {
-            console.error("❌ Failed to extract data rows", err);
+            console.error("❌ Failed to extract headers or data rows or save XLSX", err);
         }
+
 
     } catch (err) {
         console.error("Unexpected error:", err);
