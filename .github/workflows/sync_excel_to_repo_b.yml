@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout current repo (Repo A)
+      - name: Checkout Repo A
         uses: actions/checkout@v3
 
       - name: Set up Git
@@ -25,9 +25,7 @@ jobs:
 
       - name: Clone Repo B
         run: |
-          git clone https://<your-token>@github.com/<user-or-org>/repo-b.git repo-b
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_B_TOKEN }}
+          git clone https://x-access-token:${{ secrets.REPO_B_TOKEN }}@github.com/<user-or-org>/<repo-b>.git repo-b
 
       - name: Copy Excel file to Repo B
         run: |
@@ -36,6 +34,7 @@ jobs:
       - name: Commit and push to Repo B
         run: |
           cd repo-b
+          git pull origin main
           git add Broker_Analysis.xlsx
-          git commit -m "Update Excel file from Repo A"
+          git commit -m "🔄 Update Broker_Analysis.xlsx from Repo A" || echo "No changes to commit"
           git push
