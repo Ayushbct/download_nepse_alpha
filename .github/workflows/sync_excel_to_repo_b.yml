@@ -2,7 +2,7 @@ name: Copy Excel File to Repo B
 
 on:
   schedule:    
-    - cron: '15 11 * * 0-5'  # Sunday (0) to Friday (5), 11:15 AM UTC (5:00 PM NPT)
+    - cron: '45 10 * * 0-5'  # Sunday (0) to Friday (5), 10:45 AM UTC (4:30 PM NPT)
   workflow_dispatch:
 
 jobs:
