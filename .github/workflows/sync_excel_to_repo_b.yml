@@ -30,8 +30,8 @@ jobs:
             npm install
           fi
 
-      - name: Run node_scraper.js
-        run: node node_scraper.js
+      - name: Run test.js
+        run: node test.js
 
       - name: Set up Git
         run: |
