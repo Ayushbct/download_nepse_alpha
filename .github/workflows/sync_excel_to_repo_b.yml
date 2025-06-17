@@ -8,8 +8,6 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
 
 jobs:
   copy-file:
@@ -26,7 +24,7 @@ jobs:
 
       - name: Clone Repo B
         run: |
-          git clone https://x-access-token:${{ secrets.REPO_B_TOKEN }}@github.com/<user-or-org>/<repo-b>.git repo-b
+          git clone https://x-access-token:${{ secrets.REPO_B_TOKEN }}@github.com/Ayushbct/testing-for-nepse.git repo-b
 
       - name: Copy Excel file to Repo B
         run: |
