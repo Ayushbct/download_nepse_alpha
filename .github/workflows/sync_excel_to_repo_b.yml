@@ -3,7 +3,8 @@ name: Copy Excel File to Repo B
 on:
   push:
     paths:
-      - 'Broker_Analysis.xlsx'
+      # - 'Broker_Analysis.xlsx'
+      - '**'
     branches:
       - main
   workflow_dispatch:
