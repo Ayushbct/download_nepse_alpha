@@ -30,8 +30,8 @@ jobs:
             npm install
           fi
 
-      - name: Run test.js
-        run: node test.js
+      - name: Run broker_nepse_alpha.js
+        run: node broker_nepse_alpha.js
 
       - name: Set up Git
         run: |
