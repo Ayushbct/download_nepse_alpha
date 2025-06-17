@@ -7,6 +7,10 @@ const crypto = require('crypto');
 const xlsx = require('xlsx');
 const CACHE_FILE = 'data-cache.json';
 
+
+// git clone https://x-access-token:$REPO_B_PAT@github.com/Ayushbct/testing-for-nepse.git
+// git clone https://x-access-token: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@github.com/Ayushbct/testing-for-nepse.git
+
 (async () => {
     const browser = await puppeteer.launch({
         headless: true,
