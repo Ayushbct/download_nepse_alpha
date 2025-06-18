@@ -1,0 +1,39 @@
+name: Update xlsx file
+
+on:
+  schedule:    
+    - cron: '45 10 * * 0-5'  # Sunday (0) to Friday (5), 10:45 AM UTC (4:30 PM NPT)
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo A
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies (if needed)
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          fi
+
+      - name: Run broker_nepse_alpha.js
+        run: node broker_nepse_alpha.js
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+
+      - name: Commit and push changes
+        run: |
+          git add Broker_Analysis.xlsx
+          git diff --cached --quiet Broker_Analysis.xlsx || git commit -m "📝 Update Broker_Analysis.xlsx"
+          git push origin main

@@ -1,31 +1,19 @@
-name: Copy Excel File to Repo B
+name: Sync Excel to Repo B
 
 on:
-  schedule:    
-    - cron: '45 10 * * 0-5'  # Sunday (0) to Friday (5), 10:45 AM UTC (4:30 PM NPT)
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - Broker_Analysis.xlsx
 
 jobs:
-  copy-file:
+  sync:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repo A
         uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20' # or your preferred version
-
-      - name: Install dependencies (if needed)
-        run: |
-          if [ -f package.json ]; then
-            npm install
-          fi
-
-      - name: Run broker_nepse_alpha.js
-        run: node broker_nepse_alpha.js
 
       - name: Set up Git
         run: |
@@ -45,5 +33,5 @@ jobs:
           cd repo-b
           git pull --ff-only origin main
           git add Broker_Analysis.xlsx
-          git commit -m "🔄 Update Broker_Analysis.xlsx from Repo A" || echo "No changes to commit"
+          git commit -m "🔄 Sync Broker_Analysis.xlsx from Repo A" || echo "No changes to commit"
           git push origin main
