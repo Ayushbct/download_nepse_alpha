@@ -2,10 +2,9 @@ name: Sync Excel to Repo B
 
 on:
   push:
-    branches:
-      - main
     paths:
       - Broker_Analysis.xlsx
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -33,5 +32,5 @@ jobs:
           cd repo-b
           git pull --ff-only origin main
           git add Broker_Analysis.xlsx
-          git commit -m "🔄 Sync Broker_Analysis.xlsx from Repo A" || echo "No changes to commit"
+          git commit -m "🔄 Sync Broker_Analysis.xlsx from Repo A [automated]" || echo "No changes to commit"
           git push origin main
