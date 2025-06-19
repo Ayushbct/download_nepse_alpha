@@ -1,4 +1,4 @@
-name: Update xlsx file
+name: Update broker_analysis.xlsx file
 
 on:
   schedule:
