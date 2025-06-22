@@ -37,7 +37,7 @@ jobs:
         run: |
           git add Broker_Analysis.xlsx
           if ! git diff --cached --quiet; then
-            git commit -m "📝 Update Broker_Analysis.xlsx"
+            git commit -m "📝 Update Broker_Analysis.xlsx [automated]"
             git push origin HEAD:main
           fi
           
