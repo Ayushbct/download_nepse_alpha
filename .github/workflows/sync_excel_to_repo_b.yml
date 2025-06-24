@@ -1,13 +1,18 @@
 name: Sync Excel to Repo B
 
 on:
+  workflow_run:
+    workflows: ["Update broker_analysis.xlsx file"]
+    types:
+      - completed
   push:
     paths:
-      - Broker_Analysis.xlsx
+      - "Broker_Analysis.xlsx"
   workflow_dispatch:
 
 jobs:
   sync:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
