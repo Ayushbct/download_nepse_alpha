@@ -1,13 +1,13 @@
 name: Sync Excel to Repo B
 
 on:
-  # workflow_run:
-  #   workflows: ["Update broker_analysis.xlsx file"]
-  #   types:
-  #     - completed
-  push:
-    paths:
-      - "Broker_Analysis.xlsx"
+  workflow_run:
+    workflows: ["Update broker_analysis.xlsx file"]
+    types:
+      - completed
+  # push:
+  #   paths:
+  #     - "Broker_Analysis.xlsx"
   workflow_dispatch:
 
 jobs:
