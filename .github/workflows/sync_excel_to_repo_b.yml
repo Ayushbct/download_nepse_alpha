@@ -5,9 +5,9 @@ on:
     workflows: ["Update broker_analysis.xlsx file"]
     types:
       - completed
-  # push:
-  #   paths:
-  #     - "Broker_Analysis.xlsx"
+  push:
+    paths:
+      - "Broker_Analysis.xlsx"
   workflow_dispatch:
 
 jobs:
