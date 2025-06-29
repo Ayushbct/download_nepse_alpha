@@ -35,9 +35,13 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add Broker_Analysis.xlsx
-          if ! git diff --cached --quiet; then
-            git commit -m "📝 Update Broker_Analysis.xlsx [automated]"
+          # Check if Broker_Analysis.xlsx changed in the working tree or staged area
+          if git diff --quiet HEAD -- Broker_Analysis.xlsx; then
+            echo "Broker_Analysis.xlsx has NOT changed. Skipping commit."
+          else
+            echo "Broker_Analysis.xlsx changed. Committing all changes."
+            git add -A
+            git commit -m "📝 Update files including Broker_Analysis.xlsx [automated]"
             git push origin HEAD:main
           fi
-          
+      
