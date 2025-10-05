@@ -57,6 +57,7 @@ async function clickChartIcon(page) {
     try {
         await page.waitForSelector('i.fa-line-chart');
         const chartIcon = await page.$('i.fa-line-chart');
+        
         if (chartIcon) {
             await chartIcon.click();
             console.log("✅ Chart icon clicked");
@@ -70,11 +71,12 @@ async function clickChartIcon(page) {
 }
 
 async function clickPrimePicks(page) {
-    const selector = "#app > div.v-application--wrap > div.split.d-flex.with-side-menu > div:nth-child(3) > div > div.side-bar-menu-items > div > div > div.mt-2.text-center > button:nth-child(3) > span";
+    const selector = "#app > div.v-application--wrap > div.split.d-flex.with-side-menu > div:nth-child(3) > div > div.side-bar-menu-items > div > div > div > div.mt-2.text-center > button:nth-child(3) > span";
 
     try {
         await page.waitForSelector(selector, { timeout: 10000 });
         const span = await page.$(selector);
+        
         if (span) {
             await span.evaluate(el => el.scrollIntoView());
             const button = await span.evaluateHandle(el => el.closest('button'));
@@ -86,6 +88,7 @@ async function clickPrimePicks(page) {
         console.error("❌ Failed to click 'Prime Picks'", err);
     }
 }
+
 
 async function clickBrokerPicks(page) {
     try {
