@@ -3,6 +3,9 @@ name: Update broker_analysis.xlsx file
 on:
   schedule:
     - cron: '45 10 * * 0-5'  # 10:45 AM UTC Sunday to Friday (4:30 PM NPT)
+    - cron: '45 13 * * 0-5'  # 1:45 PM UTC (7:30 PM NPT)
+    - cron: '45 15 * * 0-5'  # 3:45 PM UTC (9:30 PM NPT)
+    
   workflow_dispatch:
 
 jobs:
