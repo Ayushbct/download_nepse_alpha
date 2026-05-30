@@ -1,7 +1,6 @@
 # download_nepse_alpha
 
 npm install
-npm start
 node broker_nepse_alpha.js
 
 and 
