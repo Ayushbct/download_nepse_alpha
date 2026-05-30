@@ -14,6 +14,7 @@ const CACHE_FILE = 'data-cache.json';
 (async () => {
     const browser = await puppeteer.launch({
         headless: true,
+        executablePath: await getChromeExecutablePath(),
         args: ['--no-sandbox', '--disable-dev-shm-usage']
     });
 
@@ -41,6 +42,38 @@ const CACHE_FILE = 'data-cache.json';
 // -------------------------------------------
 // Step Functions
 // -------------------------------------------
+
+async function getChromeExecutablePath() {
+    const envPath = process.env.CHROME_EXECUTABLE_PATH || process.env.PUPPETEER_EXECUTABLE_PATH;
+    if (envPath && fs.existsSync(envPath)) {
+        console.log(`Using browser from environment path: ${envPath}`);
+        return envPath;
+    }
+
+    const bundledPath = puppeteer.executablePath();
+    if (bundledPath && fs.existsSync(bundledPath)) {
+        console.log(`Using bundled Puppeteer browser at: ${bundledPath}`);
+        return bundledPath;
+    }
+
+    const systemPaths = [
+        '/usr/bin/chromium-browser',
+        '/usr/bin/chromium',
+        '/usr/bin/google-chrome-stable',
+        '/usr/bin/google-chrome'
+    ];
+
+    for (const candidate of systemPaths) {
+        if (fs.existsSync(candidate)) {
+            console.log(`Using system browser at: ${candidate}`);
+            return candidate;
+        }
+    }
+
+    throw new Error(
+        'Could not find a Chrome/Chromium executable. Install Chromium or set CHROME_EXECUTABLE_PATH.'
+    );
+}
 
 async function applyStealthSettings(page) {
     await page.setUserAgent(

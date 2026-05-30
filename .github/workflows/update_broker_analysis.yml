@@ -29,6 +29,15 @@ jobs:
             npx puppeteer install chrome
           fi
 
+      - name: Install Chromium for Actions
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+
+      - name: Debug Puppeteer browser path
+        run: |
+          node -e "const fs=require('fs'); const p=require('puppeteer'); const path=p.executablePath(); console.log('puppeteer executablePath:', path); console.log('exists:', fs.existsSync(path)); console.log('chromium-browser exists:', fs.existsSync('/usr/bin/chromium-browser')); console.log('chromium exists:', fs.existsSync('/usr/bin/chromium')); console.log('google-chrome exists:', fs.existsSync('/usr/bin/google-chrome'));"
+
       - name: Run broker_nepse_alpha.js
         run: node broker_nepse_alpha.js
 
