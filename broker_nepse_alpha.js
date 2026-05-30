@@ -98,7 +98,7 @@ async function clickChartIcon(page) {
             console.log("✅ Chart icon clicked");
             await delay(2000);
             // Take screenshot
-            await page.screenshot({path: `screenshots/clickChartIcon.png`,fullPage: true});
+            // await page.screenshot({path: `screenshots/clickChartIcon.png`,fullPage: true});
         } else {
             console.log("❌ Chart icon not found");
         }
@@ -121,7 +121,7 @@ async function clickPrimePicks(page) {
             console.log("✅ 'Prime Picks' button clicked");
             await delay(2000);
             // Take screenshot
-            await page.screenshot({path: `screenshots/clickPrimePicks.png`,fullPage: true});
+            // await page.screenshot({path: `screenshots/clickPrimePicks.png`,fullPage: true});
         }
     } catch (err) {
         console.error("❌ Failed to click 'Prime Picks'", err);
@@ -141,7 +141,7 @@ async function clickBrokerPicks(page) {
                 console.log("✅ 'Broker Picks' span clicked");
                 await delay(2000);
                 // Take screenshot
-                await page.screenshot({path: `screenshots/clickBrokerPicks.png`,fullPage: true});
+                // await page.screenshot({path: `screenshots/clickBrokerPicks.png`,fullPage: true});
                 break;
 
             }
