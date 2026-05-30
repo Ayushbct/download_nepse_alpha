@@ -19,6 +19,11 @@ const CACHE_FILE = 'data-cache.json';
     await applyStealthSettings(page);
 
     try {
+        const fs = require('fs');
+
+        if (!fs.existsSync('screenshots')) {
+            fs.mkdirSync('screenshots', { recursive: true });
+        }
         await page.goto(URL, { waitUntil: 'networkidle2' });
         console.log("📄 Page loaded");
 
@@ -92,6 +97,8 @@ async function clickChartIcon(page) {
             await chartIcon.click();
             console.log("✅ Chart icon clicked");
             await delay(2000);
+            // Take screenshot
+            await page.screenshot({path: `screenshots/clickChartIcon.png`,fullPage: true});
         } else {
             console.log("❌ Chart icon not found");
         }
@@ -113,6 +120,8 @@ async function clickPrimePicks(page) {
             await button.click();
             console.log("✅ 'Prime Picks' button clicked");
             await delay(2000);
+            // Take screenshot
+            await page.screenshot({path: `screenshots/clickPrimePicks.png`,fullPage: true});
         }
     } catch (err) {
         console.error("❌ Failed to click 'Prime Picks'", err);
@@ -131,7 +140,10 @@ async function clickBrokerPicks(page) {
                 await span.click();
                 console.log("✅ 'Broker Picks' span clicked");
                 await delay(2000);
+                // Take screenshot
+                await page.screenshot({path: `screenshots/clickBrokerPicks.png`,fullPage: true});
                 break;
+
             }
         }
     } catch (err) {
